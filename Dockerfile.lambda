@@ -1,12 +1,15 @@
-FROM public.ecr.aws/lambda/python:3.11
+FROM public.ecr.aws/lambda/python:3.11 AS builder
+
+# Install build tools (Rust needed for tiktoken, gcc for other native exts)
+RUN yum install -y gcc rust cargo && yum clean all
 
 # Install uv
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-# Install deps first (layer caching)
+# Install deps
 COPY pyproject.toml uv.lock ./
 RUN uv export --frozen --no-dev --no-emit-project > requirements.txt && \
-    uv pip install --system --no-cache --compile-bytecode --only-binary tiktoken -r requirements.txt && \
+    uv pip install --system --no-cache --compile-bytecode -r requirements.txt && \
     rm requirements.txt
 
 # Copy source & install the project
@@ -14,5 +17,14 @@ COPY config/ config/
 COPY src/ src/
 COPY README.md ./
 RUN uv pip install --system --no-cache --no-deps .
+
+# ── Runtime stage (clean, no build tools) ─────────────────────
+FROM public.ecr.aws/lambda/python:3.11
+
+# Copy installed packages from builder
+COPY --from=builder /var/lang/lib/python3.11/site-packages /var/lang/lib/python3.11/site-packages
+
+# Copy config (needed at runtime)
+COPY config/ config/
 
 CMD ["paperfinder.lambda_handler.handler"]
