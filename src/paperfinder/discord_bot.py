@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import requests
 
@@ -26,13 +26,13 @@ def post_digest(papers: list[Paper], config: DiscordConfig) -> None:
         logger.debug("Discord integration disabled — skipping")
         return
 
-    embeds: list[dict] = []
+    embeds: list[dict[str, Any]] = []
     for paper in papers[:MAX_EMBEDS_PER_MESSAGE]:
         description = paper.summary or paper.abstract or ""
         if len(description) > MAX_EMBED_DESCRIPTION:
             description = description[: MAX_EMBED_DESCRIPTION - 3] + "..."
 
-        embed: dict = {
+        embed: dict[str, Any] = {
             "title": paper.title,
             "url": paper.display_url,
             "description": description,

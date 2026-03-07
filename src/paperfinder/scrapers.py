@@ -6,9 +6,9 @@ import logging
 from datetime import UTC, datetime, timedelta
 from typing import TYPE_CHECKING
 
-import feedparser
+import feedparser  # type: ignore[import-untyped]
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 
 from paperfinder.models import Paper
 
@@ -38,9 +38,11 @@ def scrape_rss(source: SourceEntry, cfg: ScrapingConfig, lookback: timedelta) ->
         # Parse published date if available
         published = None
         if hasattr(entry, "published_parsed") and entry.published_parsed:
-            published = datetime(*entry.published_parsed[:6], tzinfo=UTC)
+            parts = tuple(entry.published_parsed[:6])
+            published = datetime(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], tzinfo=UTC)
         elif hasattr(entry, "updated_parsed") and entry.updated_parsed:
-            published = datetime(*entry.updated_parsed[:6], tzinfo=UTC)
+            parts = tuple(entry.updated_parsed[:6])
+            published = datetime(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], tzinfo=UTC)
 
         # Skip entries older than lookback window (if we have a date)
         if published and published < cutoff:
@@ -103,13 +105,13 @@ def scrape_html(source: SourceEntry, cfg: ScrapingConfig, lookback: timedelta) -
         if source.selectors.link_attr == "href":
             # The article element itself may be an <a>
             if article.name == "a":
-                link = article.get("href", "")
+                link = str(article.get("href", ""))
             else:
                 a_tag = article.find("a")
-                if a_tag:
-                    link = a_tag.get("href", "")
+                if isinstance(a_tag, Tag):
+                    link = str(a_tag.get("href", ""))
         else:
-            link = article.get(source.selectors.link_attr, "")
+            link = str(article.get(source.selectors.link_attr, ""))
 
         if link and source.selectors.link_prefix and not link.startswith("http"):
             link = source.selectors.link_prefix + link

@@ -8,6 +8,7 @@ from pathlib import Path
 
 from paperfinder.config import Settings, load_settings, load_sources
 from paperfinder.discord_bot import post_digest
+from paperfinder.models import Paper
 from paperfinder.email_sender import send_digest_email
 from paperfinder.llm import rank_and_filter, summarize_papers
 from paperfinder.pdf import build_pdf
@@ -18,7 +19,7 @@ logger = logging.getLogger(__name__)
 OUTPUT_DIR = Path(__file__).resolve().parent.parent.parent / "output"
 
 
-def run_pipeline(settings: Settings | None = None) -> list:
+def run_pipeline(settings: Settings | None = None) -> list[Paper]:
     """Execute the full discovery → rank → summarise → deliver pipeline.
 
     Returns the list of papers included in the digest.

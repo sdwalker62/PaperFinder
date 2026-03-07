@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 import logging
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import litellm
 
@@ -73,7 +73,7 @@ class CostTracker:
     def record(self, response: litellm.ModelResponse) -> None:
         """Extract usage from a LiteLLM response and accumulate."""
         self.call_count += 1
-        usage = response.usage  # type: ignore[union-attr]
+        usage = response.usage
         if usage:
             self.total_prompt_tokens += usage.prompt_tokens or 0
             self.total_completion_tokens += usage.completion_tokens or 0
@@ -94,7 +94,7 @@ class CostTracker:
     def budget_exceeded(self) -> bool:
         return self.total_cost >= self.max_budget
 
-    def summary(self) -> dict:
+    def summary(self) -> dict[str, Any]:
         return {
             "calls": self.call_count,
             "prompt_tokens": self.total_prompt_tokens,
@@ -148,7 +148,7 @@ class LLMClient:
             self.cost_tracker.max_budget,
         )
 
-        return response.choices[0].message.content  # type: ignore[union-attr]
+        return str(response.choices[0].message.content)
 
     # ------------------------------------------------------------------
     def score_relevance(self, paper: Paper, topics: list[str]) -> Paper:

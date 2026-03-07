@@ -6,6 +6,7 @@ import logging
 from datetime import datetime
 from io import BytesIO
 from pathlib import Path
+from typing import Any
 
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
@@ -90,7 +91,7 @@ def build_pdf(papers: list[Paper], output_path: Path | None = None) -> bytes:
         bottomMargin=0.75 * inch,
     )
 
-    story: list = []
+    story: list[Any] = []
     today = datetime.now().strftime("%B %d, %Y")
 
     # Title
