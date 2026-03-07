@@ -20,6 +20,9 @@ COPY src/ src/
 COPY README.md ./
 RUN uv sync --frozen --no-dev
 
+# Prevent uv run from trying to sync at runtime
+ENV UV_NO_SYNC=1
+
 # Non-root user
 RUN useradd --create-home appuser
 USER appuser
