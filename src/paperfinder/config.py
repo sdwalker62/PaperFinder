@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any
 
 import yaml
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings
 
 _CONFIG_DIR = Path(
@@ -23,16 +23,8 @@ _CONFIG_DIR = Path(
 
 class EmailConfig(BaseModel):
     sender: str = "paperfinder@example.com"
-    recipients: list[str] = Field(default_factory=lambda: ["dalton@example.com"])
+    recipients: str = "dalton@example.com"
     subject_prefix: str = "[PaperFinder]"
-
-    @field_validator("recipients", mode="before")
-    @classmethod
-    def _parse_recipients(cls, v: Any) -> list[str]:
-        """Accept a comma-separated string (from env vars) or a list."""
-        if isinstance(v, str):
-            return [r.strip() for r in v.split(",") if r.strip()]
-        return list(v)
 
 
 class AWSConfig(BaseModel):

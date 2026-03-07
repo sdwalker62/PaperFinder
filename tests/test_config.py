@@ -28,8 +28,7 @@ def tmp_config_dir(tmp_path: Path) -> Path:
         timezone: "UTC"
         email:
           sender: test@example.com
-          recipients:
-            - user@example.com
+          recipients: "user@example.com"
         aws:
           region: us-west-2
         llm:

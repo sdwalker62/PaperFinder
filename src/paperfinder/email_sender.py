@@ -28,6 +28,7 @@ def send_digest_email(
     ses = boto3.client("ses", region_name=aws_cfg.region)
     today = datetime.now().strftime("%Y-%m-%d")
     subject = f"{email_cfg.subject_prefix} Daily Digest — {today}"
+    recipients = [r.strip() for r in email_cfg.recipients.split(",") if r.strip()]
 
     # Plain-text body with paper list
     body_lines = [f"PaperFinder Digest for {today}", "", f"Papers included: {len(papers)}", ""]
@@ -43,7 +44,7 @@ def send_digest_email(
     msg = MIMEMultipart("mixed")
     msg["Subject"] = subject
     msg["From"] = email_cfg.sender
-    msg["To"] = ", ".join(email_cfg.recipients)
+    msg["To"] = ", ".join(recipients)
 
     msg.attach(MIMEText(body_text, "plain"))
 
@@ -57,7 +58,7 @@ def send_digest_email(
 
     ses.send_raw_email(
         Source=email_cfg.sender,
-        Destinations=email_cfg.recipients,
+        Destinations=recipients,
         RawMessage={"Data": msg.as_string()},
     )
-    logger.info("Digest email sent to %s", email_cfg.recipients)
+    logger.info("Digest email sent to %s", recipients)

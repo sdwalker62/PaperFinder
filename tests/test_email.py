@@ -15,7 +15,7 @@ from paperfinder.models import Paper
 def email_cfg() -> EmailConfig:
     return EmailConfig(
         sender="test@example.com",
-        recipients=["user@example.com"],
+        recipients="user@example.com",
         subject_prefix="[Test]",
     )
 

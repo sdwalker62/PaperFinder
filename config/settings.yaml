@@ -27,8 +27,7 @@ timezone: "America/New_York"
 # Email delivery settings
 email:
   sender: "paperfinder@daltonwalker.com"
-  recipients:
-    - "dalton_walker@icloud.com"
+  recipients: "dalton_walker@icloud.com"
   subject_prefix: "[PaperFinder]"
 
 # AWS settings (used for SES email delivery)
