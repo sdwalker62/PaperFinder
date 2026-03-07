@@ -8,7 +8,7 @@ from typing import Any
 
 import yaml
 from pydantic import BaseModel, Field
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, PydanticBaseSettingsSource
 
 _CONFIG_DIR = Path(
     os.environ.get("PAPERFINDER_CONFIG_DIR")
@@ -94,6 +94,18 @@ class Settings(BaseSettings):
     scraping: ScrapingConfig = Field(default_factory=ScrapingConfig)
 
     model_config = {"env_prefix": "PAPERFINDER_", "env_nested_delimiter": "__"}
+
+    @classmethod
+    def settings_customise_sources(
+        cls,
+        settings_cls: type[BaseSettings],
+        init_settings: PydanticBaseSettingsSource,
+        env_settings: PydanticBaseSettingsSource,
+        dotenv_settings: PydanticBaseSettingsSource,
+        file_secret_settings: PydanticBaseSettingsSource,
+    ) -> tuple[PydanticBaseSettingsSource, ...]:
+        """Env vars take priority over init kwargs (YAML values)."""
+        return (env_settings, init_settings, dotenv_settings, file_secret_settings)
 
 
 # ---------------------------------------------------------------------------
