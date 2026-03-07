@@ -17,6 +17,7 @@ RUN uv sync --frozen --no-install-project --no-dev
 # Copy source & install the project itself
 COPY config/ config/
 COPY src/ src/
+COPY README.md ./
 RUN uv sync --frozen --no-dev
 
 # Non-root user
