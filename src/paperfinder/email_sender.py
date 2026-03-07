@@ -9,7 +9,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from typing import TYPE_CHECKING
 
-import boto3  # noqa: F401 — stubs via boto3-stubs
+import boto3
 
 if TYPE_CHECKING:
     from paperfinder.config import AWSConfig, EmailConfig

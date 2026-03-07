@@ -38,11 +38,11 @@ def scrape_rss(source: SourceEntry, cfg: ScrapingConfig, lookback: timedelta) ->
         # Parse published date if available
         published = None
         if hasattr(entry, "published_parsed") and entry.published_parsed:
-            parts = tuple(entry.published_parsed[:6])
-            published = datetime(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], tzinfo=UTC)
+            parts = entry.published_parsed[:6]
+            published = datetime(*parts, tzinfo=UTC)  # type: ignore[misc]
         elif hasattr(entry, "updated_parsed") and entry.updated_parsed:
-            parts = tuple(entry.updated_parsed[:6])
-            published = datetime(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], tzinfo=UTC)
+            parts = entry.updated_parsed[:6]
+            published = datetime(*parts, tzinfo=UTC)  # type: ignore[misc]
 
         # Skip entries older than lookback window (if we have a date)
         if published and published < cutoff:

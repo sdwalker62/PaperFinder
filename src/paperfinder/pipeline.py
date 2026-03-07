@@ -8,9 +8,9 @@ from pathlib import Path
 
 from paperfinder.config import Settings, load_settings, load_sources
 from paperfinder.discord_bot import post_digest
-from paperfinder.models import Paper
 from paperfinder.email_sender import send_digest_email
 from paperfinder.llm import rank_and_filter, summarize_papers
+from paperfinder.models import Paper
 from paperfinder.pdf import build_pdf
 from paperfinder.scrapers import scrape_all
 
