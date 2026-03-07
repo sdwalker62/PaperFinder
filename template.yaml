@@ -1,0 +1,70 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: PaperFinder — Scheduled ML/AI paper digest service
+
+Parameters:
+  SenderEmail:
+    Type: String
+    Description: Verified SES sender email address
+  RecipientEmail:
+    Type: String
+    Description: Recipient email address
+  LLMModel:
+    Type: String
+    Default: "bedrock/anthropic.claude-3-5-sonnet-20241022-v2:0"
+    Description: LiteLLM model string (e.g. bedrock/..., openai/..., anthropic/...)
+  LLMMaxBudgetUSD:
+    Type: String
+    Default: "1.00"
+    Description: Max USD spend per pipeline run (budget guardrail)
+  Schedule:
+    Type: String
+    Default: "cron(0 13 * * ? *)"   # 8 AM ET = 1 PM UTC
+    Description: EventBridge schedule expression
+
+Globals:
+  Function:
+    Timeout: 900          # 15 min max for Lambda
+    MemorySize: 1024
+    Runtime: python3.11
+    Architectures:
+      - x86_64
+    Environment:
+      Variables:
+        PAPERFINDER_EMAIL__SENDER: !Ref SenderEmail
+        PAPERFINDER_EMAIL__RECIPIENTS: !Ref RecipientEmail
+        PAPERFINDER_LLM__MODEL: !Ref LLMModel
+        PAPERFINDER_LLM__MAX_BUDGET_USD: !Ref LLMMaxBudgetUSD
+
+Resources:
+  # ── Lambda Function ──────────────────────────────────────────
+  PaperFinderFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: paperfinder.lambda_handler.handler
+      CodeUri: .
+      Description: Runs the PaperFinder digest pipeline
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - bedrock:InvokeModel
+                - bedrock:Converse
+              Resource: "*"
+            - Effect: Allow
+              Action:
+                - ses:SendRawEmail
+                - ses:SendEmail
+              Resource: "*"
+      Events:
+        DailySchedule:
+          Type: Schedule
+          Properties:
+            Schedule: !Ref Schedule
+            Description: Daily PaperFinder digest
+            Enabled: true
+
+Outputs:
+  FunctionArn:
+    Description: ARN of the PaperFinder Lambda function
+    Value: !GetAtt PaperFinderFunction.Arn

@@ -1,0 +1,57 @@
+# PaperFinder Configuration
+# -------------------------
+
+# Topics of interest — the LLM uses these to filter and rank papers
+topics:
+  - machine learning
+  - deep learning
+  - reinforcement learning
+  - natural language processing
+  - large language models
+  - computer vision
+  - optimization
+  - neural architecture search
+  - generative models
+  - diffusion models
+  - transformers
+  - AI safety
+  - AI alignment
+
+# Maximum number of papers/posts to include in each digest
+max_papers: 15
+
+# Schedule: 24-hour format, e.g. "08:00" means 8 AM
+delivery_time: "08:00"
+timezone: "America/New_York"
+
+# Email delivery settings
+email:
+  sender: "paperfinder@daltonwalker.com"
+  recipients:
+    - "dalton_walker@icloud.com"
+  subject_prefix: "[PaperFinder]"
+
+# AWS settings (used for SES email delivery)
+aws:
+  region: "us-east-1"
+
+# LLM settings (via LiteLLM — supports Bedrock, OpenAI, Anthropic, etc.)
+# Model string format: "provider/model-name" — see https://docs.litellm.ai/docs/providers
+llm:
+  model: "bedrock/anthropic.claude-3-5-sonnet-20241022-v2:0"
+  max_tokens: 4096
+  temperature: 0.0
+  max_budget_usd: 1.00        # hard spending cap per pipeline run
+  api_base: ""                # optional: proxy / self-hosted URL
+
+# Discord (optional — leave webhook_url empty to disable)
+discord:
+  enabled: false
+  webhook_url: ""
+
+# Scraping behaviour
+scraping:
+  request_timeout: 30          # seconds
+  max_concurrent_requests: 5
+  user_agent: "PaperFinder/0.1 (+https://github.com/dalton/PaperFinder)"
+  lookback_days: 1             # how many days back to search

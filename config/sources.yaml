@@ -1,0 +1,132 @@
+# PaperFinder — Source Websites & Feeds
+# --------------------------------------
+# Each source has a name, type (rss | html | api), url, and optional selectors.
+
+sources:
+  # ── arXiv feeds ──────────────────────────────────────────────────────────────
+  - name: "arXiv - Machine Learning"
+    type: rss
+    url: "https://rss.arxiv.org/rss/cs.LG"
+    category: paper
+    link_rewrite:
+      # Convert abstract links to HTML5 full-text: /abs/XXXX -> /html/XXXX
+      pattern: "https://arxiv.org/abs/"
+      replacement: "https://arxiv.org/html/"
+
+  - name: "arXiv - Artificial Intelligence"
+    type: rss
+    url: "https://rss.arxiv.org/rss/cs.AI"
+    category: paper
+    link_rewrite:
+      pattern: "https://arxiv.org/abs/"
+      replacement: "https://arxiv.org/html/"
+
+  - name: "arXiv - Computation and Language"
+    type: rss
+    url: "https://rss.arxiv.org/rss/cs.CL"
+    category: paper
+    link_rewrite:
+      pattern: "https://arxiv.org/abs/"
+      replacement: "https://arxiv.org/html/"
+
+  - name: "arXiv - Computer Vision"
+    type: rss
+    url: "https://rss.arxiv.org/rss/cs.CV"
+    category: paper
+    link_rewrite:
+      pattern: "https://arxiv.org/abs/"
+      replacement: "https://arxiv.org/html/"
+
+  - name: "arXiv - Optimization and Control"
+    type: rss
+    url: "https://rss.arxiv.org/rss/math.OC"
+    category: paper
+    link_rewrite:
+      pattern: "https://arxiv.org/abs/"
+      replacement: "https://arxiv.org/html/"
+
+  # ── Blog feeds ───────────────────────────────────────────────────────────────
+  - name: "Google DeepMind Blog"
+    type: html
+    url: "https://deepmind.google/discover/blog/"
+    category: blog
+    selectors:
+      article: "a.glue-page__link"
+      title: "h3"
+      link_attr: "href"
+      link_prefix: "https://deepmind.google"
+
+  - name: "Anthropic Blog"
+    type: html
+    url: "https://www.anthropic.com/research"
+    category: blog
+    selectors:
+      article: "a.PostCard_post-card__WraJv"
+      title: "h3"
+      link_attr: "href"
+      link_prefix: "https://www.anthropic.com"
+
+  - name: "OpenAI Blog"
+    type: rss
+    url: "https://openai.com/blog/rss.xml"
+    category: blog
+
+  - name: "Meta AI Blog"
+    type: html
+    url: "https://ai.meta.com/blog/"
+    category: blog
+    selectors:
+      article: "div._amq3"
+      title: "h4"
+      link_attr: "href"
+      link_prefix: "https://ai.meta.com"
+
+  - name: "Hugging Face Blog"
+    type: rss
+    url: "https://huggingface.co/blog/feed.xml"
+    category: blog
+
+  - name: "Microsoft Research Blog"
+    type: rss
+    url: "https://www.microsoft.com/en-us/research/feed/"
+    category: blog
+
+  - name: "BAIR Blog"
+    type: rss
+    url: "https://bair.berkeley.edu/blog/feed.xml"
+    category: blog
+
+  - name: "MIT News - Artificial Intelligence"
+    type: rss
+    url: "https://news.mit.edu/topic/mitartificial-intelligence2-rss.xml"
+    category: blog
+
+  - name: "Stanford AI Lab Blog"
+    type: rss
+    url: "https://ai.stanford.edu/blog/feed.xml"
+    category: blog
+
+  - name: "Google Research Blog"
+    type: rss
+    url: "https://blog.research.google/feeds/posts/default?alt=rss"
+    category: blog
+
+  - name: "Amazon Science"
+    type: rss
+    url: "https://www.amazon.science/index.rss"
+    category: blog
+
+  - name: "Papers with Code"
+    type: rss
+    url: "https://paperswithcode.com/latest.rss"
+    category: paper
+
+  - name: "Ahead of AI (Sebastian Raschka)"
+    type: rss
+    url: "https://magazine.sebastianraschka.com/feed"
+    category: blog
+
+  - name: "Distill (Archive)"
+    type: rss
+    url: "https://distill.pub/rss.xml"
+    category: blog
