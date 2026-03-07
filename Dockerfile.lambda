@@ -28,5 +28,6 @@ COPY --from=builder /var/lang/lib/python3.11/site-packages /var/lang/lib/python3
 COPY config/ config/
 
 ENV PAPERFINDER_CONFIG_DIR=/var/task/config
+ENV PAPERFINDER_OUTPUT_DIR=/tmp/output
 
 CMD ["paperfinder.lambda_handler.handler"]

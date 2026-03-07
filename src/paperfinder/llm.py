@@ -119,6 +119,12 @@ class LLMClient:
         self._temperature = config.temperature
         self.cost_tracker = CostTracker(max_budget=config.max_budget_usd)
 
+        logger.info(
+            "LLMClient initialized — model=%s, max_budget=$%.2f",
+            self._model,
+            config.max_budget_usd,
+        )
+
         # Optional: set API base for self-hosted / proxy endpoints
         if config.api_base:
             litellm.api_base = config.api_base

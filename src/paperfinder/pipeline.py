@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import os
 from datetime import datetime
 from pathlib import Path
 
@@ -16,7 +17,9 @@ from paperfinder.scrapers import scrape_all
 
 logger = logging.getLogger(__name__)
 
-OUTPUT_DIR = Path(__file__).resolve().parent.parent.parent / "output"
+OUTPUT_DIR = Path(os.environ.get("PAPERFINDER_OUTPUT_DIR", "")) or (
+    Path(__file__).resolve().parent.parent.parent / "output"
+)
 
 
 def run_pipeline(settings: Settings | None = None) -> list[Paper]:
