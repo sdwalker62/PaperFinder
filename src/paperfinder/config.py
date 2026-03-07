@@ -32,7 +32,7 @@ class EmailConfig(BaseModel):
         """Accept a comma-separated string (from env vars) or a list."""
         if isinstance(v, str):
             return [r.strip() for r in v.split(",") if r.strip()]
-        return v  # type: ignore[return-value]
+        return list(v)
 
 
 class AWSConfig(BaseModel):
