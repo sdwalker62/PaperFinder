@@ -27,4 +27,6 @@ COPY --from=builder /var/lang/lib/python3.11/site-packages /var/lang/lib/python3
 # Copy config (needed at runtime)
 COPY config/ config/
 
+ENV PAPERFINDER_CONFIG_DIR=/var/task/config
+
 CMD ["paperfinder.lambda_handler.handler"]

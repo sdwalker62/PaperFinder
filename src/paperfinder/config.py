@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 from typing import Any
 
@@ -9,7 +10,10 @@ import yaml
 from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings
 
-_CONFIG_DIR = Path(__file__).resolve().parent.parent.parent / "config"
+_CONFIG_DIR = Path(
+    os.environ.get("PAPERFINDER_CONFIG_DIR")
+    or Path(__file__).resolve().parent.parent.parent / "config"
+)
 
 
 # ---------------------------------------------------------------------------
