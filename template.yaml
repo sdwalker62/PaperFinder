@@ -26,7 +26,6 @@ Globals:
   Function:
     Timeout: 900          # 15 min max for Lambda
     MemorySize: 1024
-    Runtime: python3.11
     Architectures:
       - x86_64
     Environment:
@@ -41,8 +40,7 @@ Resources:
   PaperFinderFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: paperfinder.lambda_handler.handler
-      CodeUri: .
+      PackageType: Image
       Description: Runs the PaperFinder digest pipeline
       Policies:
         - Statement:
@@ -63,6 +61,10 @@ Resources:
             Schedule: !Ref Schedule
             Description: Daily PaperFinder digest
             Enabled: true
+    Metadata:
+      Dockerfile: Dockerfile.lambda
+      DockerContext: .
+      DockerTag: latest
 
 Outputs:
   FunctionArn:
