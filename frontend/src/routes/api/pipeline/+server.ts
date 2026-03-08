@@ -1,5 +1,6 @@
 import { env } from '$env/dynamic/private';
 import { error, json } from '@sveltejs/kit';
+import aws4 from 'aws4';
 import type { RequestHandler } from './$types';
 
 export const POST: RequestHandler = async ({ request }) => {
@@ -19,11 +20,36 @@ export const POST: RequestHandler = async ({ request }) => {
         throw error(500, 'PIPELINE_URL not configured');
     }
 
+    if (!env.PIPELINE_AWS_ACCESS_KEY_ID || !env.PIPELINE_AWS_SECRET_ACCESS_KEY) {
+        throw error(500, 'AWS credentials not configured');
+    }
+
+    const url = new URL(pipelineUrl);
+    const requestBody = JSON.stringify({});
+
+    const opts = aws4.sign(
+        {
+            host: url.hostname,
+            path: url.pathname,
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: requestBody,
+            service: 'lambda',
+            region: env.PIPELINE_AWS_REGION ?? 'us-east-1'
+        },
+        {
+            accessKeyId: env.PIPELINE_AWS_ACCESS_KEY_ID,
+            secretAccessKey: env.PIPELINE_AWS_SECRET_ACCESS_KEY,
+            ...(env.PIPELINE_AWS_SESSION_TOKEN ? { sessionToken: env.PIPELINE_AWS_SESSION_TOKEN } : {})
+        }
+    );
+
     try {
         const response = await fetch(pipelineUrl, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            signal: AbortSignal.timeout(300_000) // 5 minute timeout
+            headers: opts.headers as Record<string, string>,
+            body: requestBody,
+            signal: AbortSignal.timeout(300_000)
         });
 
         if (!response.ok) {
