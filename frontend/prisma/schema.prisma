@@ -1,0 +1,33 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Paper {
+  id            String   @id @default(cuid())
+  title         String
+  url           String
+  sourceName    String   @map("source_name")
+  category      String   // "paper" | "blog"
+  abstract      String   @default("")
+  published     DateTime?
+  summary       String   @default("")
+  relevanceScore Float   @default(0) @map("relevance_score")
+  topicsMatched String[] @map("topics_matched")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@index([published])
+  @@index([category])
+  @@map("papers")
+}
