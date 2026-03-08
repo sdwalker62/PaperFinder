@@ -8,3 +8,15 @@
 - There should be a robust CI/CD (GitHub) pipeline which performs various tests the ensure project stability and quality.
 - Ideally I would host the service on AWS.
 - Since the bot should scrape both papers and blogs, I want links to be included in the return. If links are from arxiv then please use the HTML5 version.
+
+## Frontend
+
+- Svelte-kit based web app that uses the netlify adapter.
+- Works with both mobile and desktop.
+- Contains both light and dark mode.
+- Uses DaisyUI as the component library. 
+- The darkmode is a true black dark mode.
+- The website should should be a chronological scroll of papers by day with links to the paper as a list under the day marker in the timeline.
+- Use prisma as the database ORM.
+- Use supabase as the datastore.
+- Default to darkmode.
