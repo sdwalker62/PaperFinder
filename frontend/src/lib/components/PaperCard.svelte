@@ -13,20 +13,17 @@
 </script>
 
 <div
-    class="rounded-lg border border-border bg-card p-4 sm:p-6 shadow-sm hover:shadow-md transition-shadow"
+    class="card bg-base-200 border border-base-300 p-4 sm:p-6 shadow-sm hover:shadow-md transition-shadow"
 >
     <div class="flex flex-wrap items-start gap-2">
         <span
-            class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium {category ===
-            'blog'
-                ? 'bg-secondary text-secondary-foreground'
-                : 'bg-primary text-primary-foreground'}"
+            class="badge {category === 'blog'
+                ? 'badge-secondary'
+                : 'badge-primary'} badge-sm"
         >
             {category}
         </span>
-        <span
-            class="inline-flex items-center rounded-full border border-border px-2.5 py-0.5 text-xs font-medium text-muted-foreground"
-        >
+        <span class="badge badge-outline badge-sm">
             {sourceName}
         </span>
     </div>
@@ -41,16 +38,12 @@
         </a>
     </h3>
     {#if summary}
-        <p class="mt-2 text-sm text-muted-foreground line-clamp-3">{summary}</p>
+        <p class="mt-2 text-sm text-base-content/60 line-clamp-3">{summary}</p>
     {/if}
     {#if topicsMatched.length > 0}
         <div class="flex flex-wrap gap-1.5 mt-3">
             {#each topicsMatched as topic}
-                <span
-                    class="inline-flex items-center rounded-md border border-border px-2 py-0.5 text-xs text-muted-foreground"
-                >
-                    {topic}
-                </span>
+                <span class="badge badge-ghost badge-sm">{topic}</span>
             {/each}
         </div>
     {/if}

@@ -15,36 +15,34 @@
             <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">
                 Paper Feed
             </h1>
-            <p class="text-muted-foreground text-sm mt-1">
+            <p class="text-base-content/60 text-sm mt-1">
                 Latest AI/ML papers and blog posts
             </p>
         </div>
 
         <!-- Category filter -->
-        <div class="flex gap-1 rounded-lg border border-border p-1">
+        <div class="join">
             <a
                 href="/"
-                class="rounded-md px-3 py-1.5 text-sm font-medium transition-colors {!activeCategory
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-accent'}"
+                class="btn btn-sm join-item {!activeCategory
+                    ? 'btn-primary'
+                    : 'btn-ghost'}"
             >
                 All
             </a>
             <a
                 href="/?category=paper"
-                class="rounded-md px-3 py-1.5 text-sm font-medium transition-colors {activeCategory ===
-                'paper'
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-accent'}"
+                class="btn btn-sm join-item {activeCategory === 'paper'
+                    ? 'btn-primary'
+                    : 'btn-ghost'}"
             >
                 Papers
             </a>
             <a
                 href="/?category=blog"
-                class="rounded-md px-3 py-1.5 text-sm font-medium transition-colors {activeCategory ===
-                'blog'
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-accent'}"
+                class="btn btn-sm join-item {activeCategory === 'blog'
+                    ? 'btn-primary'
+                    : 'btn-ghost'}"
             >
                 Blogs
             </a>
@@ -67,12 +65,12 @@
                         href="/?page={data.page - 1}{activeCategory
                             ? `&category=${activeCategory}`
                             : ''}"
-                        class="inline-flex items-center rounded-md px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+                        class="btn btn-sm btn-ghost"
                     >
                         ← Previous
                     </a>
                 {/if}
-                <span class="text-sm text-muted-foreground px-3 py-1.5">
+                <span class="text-sm text-base-content/60 px-3 py-1.5">
                     Page {data.page} of {data.totalPages}
                 </span>
                 {#if data.page < data.totalPages}
@@ -80,7 +78,7 @@
                         href="/?page={data.page + 1}{activeCategory
                             ? `&category=${activeCategory}`
                             : ''}"
-                        class="inline-flex items-center rounded-md px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+                        class="btn btn-sm btn-ghost"
                     >
                         Next →
                     </a>
@@ -89,7 +87,7 @@
         {/if}
     {:else}
         <div
-            class="flex flex-col items-center justify-center py-20 text-muted-foreground"
+            class="flex flex-col items-center justify-center py-20 text-base-content/60"
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"

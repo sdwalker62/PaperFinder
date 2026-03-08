@@ -3,7 +3,7 @@
 
     function toggleTheme() {
         theme = theme === "dark" ? "light" : "dark";
-        document.documentElement.classList.toggle("dark", theme === "dark");
+        document.documentElement.setAttribute("data-theme", theme);
         localStorage.setItem("theme", theme);
     }
 
@@ -11,13 +11,13 @@
         const saved = localStorage.getItem("theme") as "light" | "dark" | null;
         if (saved) {
             theme = saved;
-            document.documentElement.classList.toggle("dark", saved === "dark");
+            document.documentElement.setAttribute("data-theme", saved);
         }
     });
 </script>
 
 <button
-    class="inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors cursor-pointer"
+    class="btn btn-ghost btn-circle"
     onclick={toggleTheme}
     aria-label="Toggle theme"
 >

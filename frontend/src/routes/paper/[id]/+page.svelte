@@ -22,7 +22,7 @@
     <!-- Back link -->
     <a
         href="/"
-        class="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors w-fit"
+        class="inline-flex items-center gap-1 text-sm text-base-content/60 hover:text-base-content transition-colors w-fit"
     >
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -45,19 +45,16 @@
     <article class="prose prose-neutral dark:prose-invert prose-lg max-w-none">
         <div class="flex flex-wrap gap-2 not-prose mb-4">
             <span
-                class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium {paper.category ===
-                'blog'
-                    ? 'bg-secondary text-secondary-foreground'
-                    : 'bg-primary text-primary-foreground'}"
+                class="badge {paper.category === 'blog'
+                    ? 'badge-secondary'
+                    : 'badge-primary'} badge-sm"
             >
                 {paper.category}
             </span>
-            <span
-                class="inline-flex items-center rounded-full border border-border px-2.5 py-0.5 text-xs font-medium text-muted-foreground"
-            >
+            <span class="badge badge-outline badge-sm">
                 {paper.sourceName}
             </span>
-            <span class="text-sm text-muted-foreground">{formattedDate}</span>
+            <span class="text-sm text-base-content/60">{formattedDate}</span>
         </div>
 
         <h1 class="text-2xl sm:text-3xl font-bold leading-tight tracking-tight">
@@ -67,11 +64,7 @@
         {#if paper.topicsMatched.length > 0}
             <div class="flex flex-wrap gap-1.5 not-prose mt-4">
                 {#each paper.topicsMatched as topic}
-                    <span
-                        class="inline-flex items-center rounded-md border border-border px-2 py-0.5 text-xs text-muted-foreground"
-                    >
-                        {topic}
-                    </span>
+                    <span class="badge badge-ghost badge-sm">{topic}</span>
                 {/each}
             </div>
         {/if}
@@ -79,7 +72,7 @@
         {#if paper.summary}
             <div class="mt-6">
                 <h2 class="text-xl font-semibold">Summary</h2>
-                <p class="text-muted-foreground whitespace-pre-line">
+                <p class="text-base-content/60 whitespace-pre-line">
                     {paper.summary}
                 </p>
             </div>
@@ -88,7 +81,7 @@
         {#if paper.abstract}
             <div class="mt-6">
                 <h2 class="text-xl font-semibold">Abstract</h2>
-                <p class="text-muted-foreground whitespace-pre-line">
+                <p class="text-base-content/60 whitespace-pre-line">
                     {paper.abstract}
                 </p>
             </div>
@@ -99,7 +92,7 @@
                 href={paper.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+                class="btn btn-primary"
             >
                 Read full {paper.category === "blog" ? "post" : "paper"}
                 <svg

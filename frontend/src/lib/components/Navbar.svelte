@@ -1,11 +1,12 @@
 <script lang="ts">
+    import PipelineTrigger from "$lib/components/PipelineTrigger.svelte";
     import ThemeToggle from "$lib/components/ThemeToggle.svelte";
 </script>
 
 <header
-    class="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+    class="navbar sticky top-0 z-50 border-b border-base-300 bg-base-200/95 backdrop-blur"
 >
-    <div class="container mx-auto flex h-14 max-w-4xl items-center px-4">
+    <div class="container mx-auto flex max-w-4xl items-center px-4">
         <a
             href="/"
             class="flex items-center gap-2 font-bold text-lg hover:opacity-80 transition-opacity"
@@ -26,7 +27,8 @@
             </svg>
             PaperFinder
         </a>
-        <div class="ml-auto">
+        <div class="ml-auto flex items-center gap-2">
+            <PipelineTrigger />
             <ThemeToggle />
         </div>
     </div>

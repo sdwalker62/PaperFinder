@@ -37,13 +37,15 @@
 
 <div class="relative pl-8 sm:pl-12 pb-8 last:pb-0">
     <!-- Timeline line -->
-    <div class="absolute left-3 sm:left-5 top-0 bottom-0 w-0.5 bg-border"></div>
+    <div
+        class="absolute left-3 sm:left-5 top-0 bottom-0 w-0.5 bg-base-300"
+    ></div>
 
     <!-- Timeline dot -->
     <div
         class="absolute left-1.5 sm:left-3.5 top-1 w-4 h-4 rounded-full border-2 {isToday
             ? 'bg-primary border-primary'
-            : 'bg-muted border-border'}"
+            : 'bg-base-300 border-base-300'}"
     ></div>
 
     <!-- Day header -->
@@ -51,14 +53,14 @@
         <h2 class="text-lg sm:text-xl font-bold">
             {#if isToday}
                 <span class="text-primary">Today</span>
-                <span class="text-muted-foreground text-sm font-normal ml-2"
+                <span class="text-base-content/60 text-sm font-normal ml-2"
                     >{formattedDate}</span
                 >
             {:else}
                 {formattedDate}
             {/if}
         </h2>
-        <p class="text-sm text-muted-foreground">
+        <p class="text-sm text-base-content/60">
             {papers.length}
             {papers.length === 1 ? "paper" : "papers"}
         </p>
