@@ -44,12 +44,14 @@ export const POST: RequestHandler = async ({ request }) => {
         }
     );
 
+    // Use an 8-second timeout so we respond before Netlify's 10s function limit.
+    // Lambda continues running in the background regardless of client disconnect.
     try {
         const response = await fetch(pipelineUrl, {
             method: 'POST',
             headers: opts.headers as Record<string, string>,
             body: requestBody,
-            signal: AbortSignal.timeout(300_000)
+            signal: AbortSignal.timeout(8_000)
         });
 
         if (!response.ok) {
@@ -60,6 +62,10 @@ export const POST: RequestHandler = async ({ request }) => {
         const result = await response.json();
         return json({ success: true, result });
     } catch (err) {
+        // If the 8s timeout fired, the request was sent and Lambda is processing
+        if (err instanceof Error && err.name === 'TimeoutError') {
+            return json({ success: true, message: 'Pipeline triggered — running in background' });
+        }
         if (err && typeof err === 'object' && 'status' in err) throw err;
         throw error(502, `Failed to reach pipeline: ${(err as Error).message}`);
     }
