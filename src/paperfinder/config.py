@@ -34,9 +34,9 @@ class AWSConfig(BaseModel):
 class LLMConfig(BaseModel):
     """LLM provider configuration via LiteLLM."""
 
-    # LiteLLM model string — e.g. "bedrock/anthropic.claude-3-5-sonnet-20241022-v2:0",
-    # "openai/gpt-4o", "anthropic/claude-3-5-sonnet", etc.
-    model: str = "bedrock/anthropic.claude-3-5-sonnet-20241022-v2:0"
+    # LiteLLM model string — e.g. "anthropic/claude-sonnet-4-20250514",
+    # "openai/gpt-4o", "bedrock/anthropic.claude-3-5-sonnet-20241022-v2:0", etc.
+    model: str = "anthropic/claude-sonnet-4-20250514"
     max_tokens: int = 4096
     temperature: float = 0.0
 

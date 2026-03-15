@@ -11,12 +11,16 @@ Parameters:
     Description: Recipient email address
   LLMModel:
     Type: String
-    Default: "bedrock/anthropic.claude-3-5-sonnet-20241022-v2:0"
-    Description: LiteLLM model string (e.g. bedrock/..., openai/..., anthropic/...)
+    Default: "anthropic/claude-sonnet-4-20250514"
+    Description: LiteLLM model string (e.g. anthropic/..., openai/..., bedrock/...)
   LLMMaxBudgetUSD:
     Type: String
     Default: "1.00"
     Description: Max USD spend per pipeline run (budget guardrail)
+  AnthropicApiKey:
+    Type: String
+    NoEcho: true
+    Description: Anthropic API key for LLM calls
   Schedule:
     Type: String
     Default: "cron(0 13 * * ? *)"   # 8 AM ET = 1 PM UTC
@@ -34,6 +38,7 @@ Globals:
         PAPERFINDER_EMAIL__RECIPIENTS: !Ref RecipientEmail
         PAPERFINDER_LLM__MODEL: !Ref LLMModel
         PAPERFINDER_LLM__MAX_BUDGET_USD: !Ref LLMMaxBudgetUSD
+        ANTHROPIC_API_KEY: !Ref AnthropicApiKey
 
 Resources:
   # ── Lambda Function ──────────────────────────────────────────
@@ -44,11 +49,6 @@ Resources:
       Description: Runs the PaperFinder digest pipeline
       Policies:
         - Statement:
-            - Effect: Allow
-              Action:
-                - bedrock:InvokeModel
-                - bedrock:Converse
-              Resource: "*"
             - Effect: Allow
               Action:
                 - ses:SendRawEmail

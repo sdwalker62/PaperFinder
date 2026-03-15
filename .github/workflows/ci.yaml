@@ -115,5 +115,6 @@ jobs:
             --parameter-overrides \
               SenderEmail=${{ secrets.SES_SENDER_EMAIL }} \
               RecipientEmail=${{ secrets.SES_RECIPIENT_EMAIL }} \
-              LLMModel="${{ vars.LLM_MODEL || 'bedrock/anthropic.claude-3-5-sonnet-20241022-v2:0' }}" \
+              LLMModel="${{ vars.LLM_MODEL || 'anthropic/claude-sonnet-4-20250514' }}" \
+              AnthropicApiKey="${{ secrets.ANTHROPIC_API_KEY }}" \
               LLMMaxBudgetUSD="${{ vars.LLM_MAX_BUDGET_USD || '1.00' }}"
