@@ -42,7 +42,7 @@
     </h3>
 
     {#if summary}
-        <p class="mt-1.5 text-sm text-base-content/60 leading-relaxed line-clamp-3 italic">
+        <p class="mt-1.5 text-sm text-base-content/60 leading-relaxed line-clamp-3 lg:line-clamp-none italic">
             {summary}
         </p>
     {/if}

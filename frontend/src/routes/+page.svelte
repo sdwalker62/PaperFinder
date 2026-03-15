@@ -22,7 +22,7 @@
     }
 </script>
 
-<div class="grid grid-cols-1 md:grid-cols-[14rem_1fr] gap-8 items-start">
+<div class="grid grid-cols-1 md:grid-cols-[14rem_1fr] lg:grid-cols-[18rem_1fr] gap-8 lg:gap-12 items-start">
     <!-- Calendar sidebar -->
     <aside class="md:sticky md:top-8">
         <!-- Calendar label -->

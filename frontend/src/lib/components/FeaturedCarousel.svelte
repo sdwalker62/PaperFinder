@@ -80,7 +80,7 @@
                     target="_blank"
                     rel="noopener noreferrer"
                     data-card
-                    class="flex-none w-56 sm:w-64 snap-start border border-base-content/15 bg-base-100 p-4 flex flex-col gap-2 hover:border-base-content/40 transition-colors group"
+                    class="flex-none w-56 sm:w-64 lg:w-72 snap-start border border-base-content/15 bg-base-100 p-4 flex flex-col gap-2 hover:border-base-content/40 transition-colors group"
                 >
                     <!-- Category + source -->
                     <div class="flex items-center gap-1.5">

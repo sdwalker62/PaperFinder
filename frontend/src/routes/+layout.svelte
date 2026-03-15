@@ -15,7 +15,7 @@
 
 <div class="min-h-screen bg-base-100 text-base-content">
 	<Navbar />
-	<main class="container mx-auto max-w-4xl px-4 py-8">
+	<main class="container mx-auto max-w-4xl lg:max-w-6xl px-4 lg:px-8 py-8">
 		{@render children()}
 	</main>
 </div>

@@ -4,7 +4,7 @@
 </script>
 
 <header class="border-b-2 border-base-content/80 bg-base-100">
-    <div class="container mx-auto max-w-4xl px-4">
+    <div class="container mx-auto max-w-4xl lg:max-w-6xl px-4 lg:px-8">
         <!-- Top rule -->
         <div class="border-t border-base-content/20 mt-4"></div>
 
@@ -16,7 +16,7 @@
 
             <a href="/" class="text-center hover:opacity-80 transition-opacity">
                 <div
-                    class="text-3xl sm:text-5xl font-bold tracking-tight leading-none"
+                    class="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-none"
                     style="font-family: 'Playfair Display', Georgia, serif;"
                 >
                     PaperFinder
