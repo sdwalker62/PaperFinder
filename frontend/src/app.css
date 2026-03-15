@@ -1,14 +1,41 @@
 @import 'tailwindcss';
 
 @plugin "daisyui" {
-    themes: light, dark --default;
+    themes: light --default, dark;
 }
 
 @plugin "@tailwindcss/typography";
 
-/* True black dark mode overrides */
+/* Journal light theme — warm parchment */
+[data-theme="light"] {
+    --color-base-100: oklch(0.968 0.016 85);
+    --color-base-200: oklch(0.935 0.018 85);
+    --color-base-300: oklch(0.875 0.022 80);
+    --color-base-content: oklch(0.17 0.018 250);
+    --color-primary: oklch(0.37 0.09 30);
+    --color-primary-content: oklch(0.97 0.01 80);
+    --color-secondary: oklch(0.45 0.07 210);
+    --color-secondary-content: oklch(0.97 0.01 80);
+    --color-neutral: oklch(0.30 0.015 250);
+    --color-neutral-content: oklch(0.97 0.01 80);
+    --rounded-box: 0.15rem;
+    --rounded-btn: 0.15rem;
+    --rounded-badge: 0.15rem;
+}
+
+/* True black dark mode */
 [data-theme="dark"] {
-    --b1: 0 0% 0%;
-    --b2: 0 0% 4%;
-    --b3: 0 0% 8%;
+    --color-base-100: oklch(0.10 0 0);
+    --color-base-200: oklch(0.14 0 0);
+    --color-base-300: oklch(0.18 0 0);
+    --color-base-content: oklch(0.90 0.01 80);
+}
+
+/* Serif typography */
+body {
+    font-family: 'Lora', Georgia, 'Times New Roman', serif;
+}
+
+h1, h2, h3, h4, .font-display {
+    font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
 }

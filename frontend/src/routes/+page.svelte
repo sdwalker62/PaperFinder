@@ -8,41 +8,42 @@
 
 <div class="flex flex-col gap-6">
     <!-- Header -->
-    <div
-        class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
-    >
+    <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 border-b border-base-content/20 pb-4">
         <div>
-            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">
-                Paper Feed
+            <h1
+                class="text-2xl sm:text-3xl font-bold"
+                style="font-family: 'Playfair Display', Georgia, serif;"
+            >
+                Latest Papers
             </h1>
-            <p class="text-base-content/60 text-sm mt-1">
-                Latest AI/ML papers and blog posts
+            <p class="text-base-content/50 text-sm mt-0.5 italic">
+                {new Date().toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
             </p>
         </div>
 
         <!-- Category filter -->
-        <div class="join">
+        <div class="flex gap-0 text-sm border border-base-content/20 divide-x divide-base-content/20 self-start sm:self-auto">
             <a
                 href="/"
-                class="btn btn-sm join-item {!activeCategory
-                    ? 'btn-primary'
-                    : 'btn-ghost'}"
+                class="px-3 py-1 transition-colors {!activeCategory
+                    ? 'bg-base-content text-base-100'
+                    : 'hover:bg-base-200'}"
             >
                 All
             </a>
             <a
                 href="/?category=paper"
-                class="btn btn-sm join-item {activeCategory === 'paper'
-                    ? 'btn-primary'
-                    : 'btn-ghost'}"
+                class="px-3 py-1 transition-colors {activeCategory === 'paper'
+                    ? 'bg-base-content text-base-100'
+                    : 'hover:bg-base-200'}"
             >
                 Papers
             </a>
             <a
                 href="/?category=blog"
-                class="btn btn-sm join-item {activeCategory === 'blog'
-                    ? 'btn-primary'
-                    : 'btn-ghost'}"
+                class="px-3 py-1 transition-colors {activeCategory === 'blog'
+                    ? 'bg-base-content text-base-100'
+                    : 'hover:bg-base-200'}"
             >
                 Blogs
             </a>
@@ -51,7 +52,7 @@
 
     <!-- Timeline -->
     {#if data.days.length > 0}
-        <div class="flex flex-col">
+        <div class="flex flex-col divide-y divide-base-content/10">
             {#each data.days as day (day.date)}
                 <TimelineDay date={day.date} papers={day.papers} />
             {/each}
@@ -59,18 +60,18 @@
 
         <!-- Pagination -->
         {#if data.totalPages > 1}
-            <div class="flex justify-center items-center gap-2 mt-4">
+            <div class="flex justify-center items-center gap-4 mt-4 text-sm border-t border-base-content/20 pt-4">
                 {#if data.page > 1}
                     <a
                         href="/?page={data.page - 1}{activeCategory
                             ? `&category=${activeCategory}`
                             : ''}"
-                        class="btn btn-sm btn-ghost"
+                        class="hover:underline underline-offset-4"
                     >
                         ← Previous
                     </a>
                 {/if}
-                <span class="text-sm text-base-content/60 px-3 py-1.5">
+                <span class="text-base-content/50 italic">
                     Page {data.page} of {data.totalPages}
                 </span>
                 {#if data.page < data.totalPages}
@@ -78,7 +79,7 @@
                         href="/?page={data.page + 1}{activeCategory
                             ? `&category=${activeCategory}`
                             : ''}"
-                        class="btn btn-sm btn-ghost"
+                        class="hover:underline underline-offset-4"
                     >
                         Next →
                     </a>
@@ -86,12 +87,10 @@
             </div>
         {/if}
     {:else}
-        <div
-            class="flex flex-col items-center justify-center py-20 text-base-content/60"
-        >
+        <div class="flex flex-col items-center justify-center py-20 text-base-content/50 text-center">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-16 w-16 mb-4"
+                class="h-14 w-14 mb-4 opacity-30"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -103,10 +102,8 @@
                     d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
                 />
             </svg>
-            <p class="text-lg font-medium">No papers found</p>
-            <p class="text-sm">
-                Papers will appear here once the pipeline runs.
-            </p>
+            <p class="text-lg italic" style="font-family: 'Playfair Display', Georgia, serif;">No papers yet</p>
+            <p class="text-sm mt-1">Papers will appear here once the pipeline runs.</p>
         </div>
     {/if}
 </div>

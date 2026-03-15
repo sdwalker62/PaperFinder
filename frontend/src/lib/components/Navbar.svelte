@@ -3,33 +3,36 @@
     import ThemeToggle from "$lib/components/ThemeToggle.svelte";
 </script>
 
-<header
-    class="navbar sticky top-0 z-50 border-b border-base-300 bg-base-200/95 backdrop-blur"
->
-    <div class="container mx-auto flex max-w-4xl items-center px-4">
-        <a
-            href="/"
-            class="flex items-center gap-2 font-bold text-lg hover:opacity-80 transition-opacity"
-        >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-            >
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-                />
-            </svg>
-            PaperFinder
-        </a>
-        <div class="ml-auto flex items-center gap-2">
-            <PipelineTrigger />
-            <ThemeToggle />
+<header class="border-b-2 border-base-content/80 bg-base-100">
+    <div class="container mx-auto max-w-4xl px-4">
+        <!-- Top rule -->
+        <div class="border-t border-base-content/20 mt-4"></div>
+
+        <!-- Masthead row -->
+        <div class="flex items-center justify-between py-3">
+            <div class="text-xs text-base-content/50 tracking-widest uppercase hidden sm:block">
+                Est. {new Date().getFullYear()}
+            </div>
+
+            <a href="/" class="text-center hover:opacity-80 transition-opacity">
+                <div
+                    class="text-3xl sm:text-5xl font-bold tracking-tight leading-none"
+                    style="font-family: 'Playfair Display', Georgia, serif;"
+                >
+                    PaperFinder
+                </div>
+                <div class="text-xs tracking-[0.2em] uppercase text-base-content/50 mt-1">
+                    Daily AI &amp; ML Digest
+                </div>
+            </a>
+
+            <div class="flex items-center gap-1">
+                <PipelineTrigger />
+                <ThemeToggle />
+            </div>
         </div>
+
+        <!-- Bottom rule -->
+        <div class="border-t border-base-content/20 mb-0"></div>
     </div>
 </header>
