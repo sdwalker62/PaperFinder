@@ -23,7 +23,11 @@ def _arxiv_id(url: str) -> str | None:
     return m.group(1) if m else None
 
 
-def _get(url: str, params: dict | None = None, headers: dict | None = None) -> dict | None:
+def _get(
+    url: str,
+    params: dict[str, str | int] | None = None,
+    headers: dict[str, str] | None = None,
+) -> dict[str, object] | None:
     """GET with one automatic retry on 429."""
     try:
         resp = requests.get(url, params=params, headers=headers or {}, timeout=10)
@@ -32,7 +36,8 @@ def _get(url: str, params: dict | None = None, headers: dict | None = None) -> d
             time.sleep(_RETRY_WAIT)
             resp = requests.get(url, params=params, headers=headers or {}, timeout=10)
         if resp.status_code == 200:
-            return resp.json()
+            result: dict[str, object] = resp.json()
+            return result
         if resp.status_code not in (404, 400):
             logger.warning("Semantic Scholar returned %d for %s", resp.status_code, url)
     except requests.RequestException as exc:
@@ -47,13 +52,17 @@ def _fetch_citation_count(paper: Paper, api_key: str = "") -> int | None:
     arxiv_id = _arxiv_id(paper.url)
     if arxiv_id:
         data = _get(f"{_API_BASE}/arXiv:{arxiv_id}", params={"fields": _FIELDS}, headers=headers)
-        if data and "citationCount" in data:
-            return data["citationCount"]
+        if data:
+            count = data.get("citationCount")
+            if isinstance(count, int):
+                return count
 
     # 2. URL lookup
     data = _get(f"{_API_BASE}/URL:{paper.url}", params={"fields": _FIELDS}, headers=headers)
-    if data and "citationCount" in data:
-        return data["citationCount"]
+    if data:
+        count = data.get("citationCount")
+        if isinstance(count, int):
+            return count
 
     # 3. Title search fallback
     if paper.title:
@@ -64,8 +73,10 @@ def _fetch_citation_count(paper: Paper, api_key: str = "") -> int | None:
         )
         if data:
             results = data.get("data", [])
-            if results:
-                return results[0].get("citationCount")
+            if isinstance(results, list) and results:
+                first = results[0]
+                if isinstance(first, dict) and isinstance(first.get("citationCount"), int):
+                    return int(first["citationCount"])
 
     return None
 
