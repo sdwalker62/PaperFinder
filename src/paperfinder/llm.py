@@ -42,11 +42,13 @@ Respond ONLY with valid JSON in this exact schema:
 
 _SUMMARY_PROMPT = """\
 You are an expert ML/AI research assistant. Write a concise but informative summary \
-(3-5 paragraphs) of the following paper/blog post. Focus on:
-1. The main problem or research question
-2. The proposed approach or method
-3. Key results and contributions
-4. Potential impact or applications
+(3-5 paragraphs) of the following paper/blog post.
+
+Cover the main problem or research question, the proposed approach or method, \
+key results and contributions, and potential impact or applications.
+
+Write in plain prose paragraphs. Do not use any markdown formatting — no headers, \
+no bullet points, no bold or italic text, no numbered lists.
 
 Title: {title}
 Source: {source}

@@ -77,7 +77,7 @@
                 >
                     Summary
                 </h2>
-                <p class="text-base leading-relaxed text-base-content/80 whitespace-pre-line italic">
+                <p class="text-base leading-relaxed text-base-content/80 italic">
                     {paper.summary}
                 </p>
             </div>
