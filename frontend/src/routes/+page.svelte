@@ -1,5 +1,6 @@
 <script lang="ts">
     import CalendarWidget from "$lib/components/CalendarWidget.svelte";
+    import FeaturedCarousel from "$lib/components/FeaturedCarousel.svelte";
     import TimelineDay from "$lib/components/TimelineDay.svelte";
 
     let { data } = $props();
@@ -38,6 +39,9 @@
 
     <!-- Feed -->
     <div class="flex flex-col gap-6 min-w-0">
+        <!-- Featured carousel -->
+        <FeaturedCarousel papers={data.featuredPapers} />
+
         <!-- Header -->
         <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 border-b border-base-content/20 pb-4">
             <div>

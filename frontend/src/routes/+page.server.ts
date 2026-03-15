@@ -32,7 +32,7 @@ export const load: PageServerLoad = async ({ url }) => {
     const monthStart = new Date(Date.UTC(vmYear, vmMon - 1, 1));
     const monthEnd = new Date(Date.UTC(vmYear, vmMon, 1));
 
-    const [papers, total, publishedInMonth] = await Promise.all([
+    const [papers, total, publishedInMonth, featuredPapers] = await Promise.all([
         prisma.paper.findMany({
             where,
             orderBy: { published: 'desc' },
@@ -47,6 +47,22 @@ export const load: PageServerLoad = async ({ url }) => {
                 published: { gte: monthStart, lt: monthEnd }
             },
             select: { published: true }
+        }),
+        // Top papers for the featured carousel (all time, no date/category filter)
+        prisma.paper.findMany({
+            orderBy: [{ citationCount: 'desc' }, { relevanceScore: 'desc' }],
+            take: 10,
+            select: {
+                id: true,
+                title: true,
+                url: true,
+                sourceName: true,
+                category: true,
+                citationCount: true,
+                relevanceScore: true,
+                topicsMatched: true,
+                published: true
+            }
         })
     ]);
 
@@ -80,6 +96,10 @@ export const load: PageServerLoad = async ({ url }) => {
         category,
         selectedDate,
         viewMonth,
-        activeDates
+        activeDates,
+        featuredPapers: featuredPapers.map((p) => ({
+            ...p,
+            published: p.published?.toISOString() ?? null
+        }))
     };
 };

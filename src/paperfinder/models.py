@@ -19,6 +19,7 @@ class Paper:
     summary: str = ""
     relevance_score: float = 0.0
     topics_matched: list[str] = field(default_factory=list)
+    citation_count: int = 0
 
     @property
     def display_url(self) -> str:

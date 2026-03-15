@@ -54,6 +54,13 @@ class WebsiteConfig(BaseModel):
     api_key: str = ""
 
 
+class EnrichmentConfig(BaseModel):
+    """Semantic Scholar citation enrichment."""
+
+    enabled: bool = True
+    semantic_scholar_api_key: str = ""  # optional — free tier works without one
+
+
 class DiscordConfig(BaseModel):
     enabled: bool = False
     webhook_url: str = ""
@@ -98,6 +105,7 @@ class Settings(BaseSettings):
     aws: AWSConfig = Field(default_factory=AWSConfig)
     llm: LLMConfig = Field(default_factory=LLMConfig)
     website: WebsiteConfig = Field(default_factory=WebsiteConfig)
+    enrichment: EnrichmentConfig = Field(default_factory=EnrichmentConfig)
     discord: DiscordConfig = Field(default_factory=DiscordConfig)
     scraping: ScrapingConfig = Field(default_factory=ScrapingConfig)
 

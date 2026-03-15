@@ -5,7 +5,11 @@ import type { RequestHandler } from './$types';
 
 export const POST: RequestHandler = async ({ request }) => {
     const body = await request.json();
-    const { password } = body as { password?: string };
+    const { password, lookback_days, skip_delivery } = body as {
+        password?: string;
+        lookback_days?: number;
+        skip_delivery?: boolean;
+    };
 
     if (!env.ADMIN_PASSWORD) {
         throw error(500, 'ADMIN_PASSWORD not configured');
@@ -25,7 +29,10 @@ export const POST: RequestHandler = async ({ request }) => {
     }
 
     const url = new URL(pipelineUrl);
-    const requestBody = JSON.stringify({});
+    const payload: Record<string, unknown> = {};
+    if (lookback_days != null) payload.lookback_days = lookback_days;
+    if (skip_delivery != null) payload.skip_delivery = skip_delivery;
+    const requestBody = JSON.stringify(payload);
 
     const opts = aws4.sign(
         {
@@ -62,7 +69,6 @@ export const POST: RequestHandler = async ({ request }) => {
         const result = await response.json();
         return json({ success: true, result });
     } catch (err) {
-        // If the 8s timeout fired, the request was sent and Lambda is processing
         if (err instanceof Error && err.name === 'TimeoutError') {
             return json({ success: true, message: 'Pipeline triggered — running in background' });
         }

@@ -27,6 +27,12 @@
             </a>
 
             <div class="flex items-center gap-1">
+                <a
+                    href="/admin"
+                    class="btn btn-ghost btn-sm text-xs tracking-widest uppercase opacity-50 hover:opacity-100 transition-opacity hidden sm:flex"
+                >
+                    Admin
+                </a>
                 <PipelineTrigger />
                 <ThemeToggle />
             </div>

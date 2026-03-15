@@ -48,6 +48,11 @@ website:
   api_url: ""       # e.g. https://paperfinder.netlify.app/api/papers
   api_key: ""       # matches the frontend API_KEY env var
 
+# Semantic Scholar citation enrichment
+enrichment:
+  enabled: true
+  semantic_scholar_api_key: ""  # optional — free tier (~1 req/sec) works without one
+
 # Discord (optional — leave webhook_url empty to disable)
 discord:
   enabled: false

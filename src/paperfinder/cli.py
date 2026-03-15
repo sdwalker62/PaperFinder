@@ -18,7 +18,19 @@ def main(argv: list[str] | None = None) -> None:
     sub = parser.add_subparsers(dest="command")
 
     # ── run ──────────────────────────────────────────────────────
-    sub.add_parser("run", help="Run the pipeline once and exit")
+    run_parser = sub.add_parser("run", help="Run the pipeline once and exit")
+    run_parser.add_argument(
+        "--lookback-days",
+        type=int,
+        default=None,
+        metavar="N",
+        help="Override scraping.lookback_days (useful for backfills)",
+    )
+    run_parser.add_argument(
+        "--skip-delivery",
+        action="store_true",
+        help="Skip email and Discord delivery (for backfills)",
+    )
 
     # ── serve ────────────────────────────────────────────────────
     sub.add_parser("serve", help="Start the daily scheduler")
@@ -37,7 +49,10 @@ def main(argv: list[str] | None = None) -> None:
     if args.command == "run":
         from paperfinder.pipeline import run_pipeline
 
-        run_pipeline()
+        run_pipeline(
+            lookback_days=args.lookback_days,
+            skip_delivery=args.skip_delivery,
+        )
     elif args.command == "serve":
         from paperfinder.scheduler import start_scheduler
 

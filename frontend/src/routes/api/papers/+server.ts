@@ -46,6 +46,7 @@ export const POST: RequestHandler = async ({ request }) => {
             published: p.published ? new Date(String(p.published)) : null,
             summary: String(p.summary ?? ''),
             relevanceScore: Number(p.relevance_score ?? 0),
+            citationCount: Number(p.citation_count ?? 0),
             topicsMatched: Array.isArray(p.topics_matched) ? p.topics_matched.map(String) : []
         })),
         skipDuplicates: true

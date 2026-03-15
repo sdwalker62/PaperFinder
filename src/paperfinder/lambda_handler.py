@@ -15,7 +15,7 @@ logging.basicConfig(
 
 
 def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
-    """Lambda entry point — invoked by EventBridge on schedule."""
+    """Lambda entry point — invoked by EventBridge on schedule or manually."""
     logger.info("Lambda invoked with event: %s", event)
 
     from paperfinder.config import load_settings
@@ -28,8 +28,14 @@ def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
         settings.aws.region,
     )
 
-    papers = run_pipeline(settings)
+    lookback_days: int | None = event.get("lookback_days")
+    skip_delivery: bool = bool(event.get("skip_delivery", False))
+
+    if lookback_days is not None:
+        logger.info("Backfill mode — lookback_days=%d, skip_delivery=%s", lookback_days, skip_delivery)
+
+    papers = run_pipeline(settings, lookback_days=lookback_days, skip_delivery=skip_delivery)
     return {
         "statusCode": 200,
-        "body": f"Digest sent with {len(papers)} papers.",
+        "body": f"Pipeline complete with {len(papers)} papers.",
     }

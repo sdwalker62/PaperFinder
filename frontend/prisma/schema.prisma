@@ -23,6 +23,7 @@ model Paper {
   published     DateTime?
   summary       String   @default("")
   relevanceScore Float   @default(0) @map("relevance_score")
+  citationCount  Int     @default(0) @map("citation_count")
   topicsMatched String[] @map("topics_matched")
   createdAt     DateTime @default(now()) @map("created_at")
   updatedAt     DateTime @updatedAt @map("updated_at")
