@@ -95,10 +95,19 @@ def scrape_html(source: SourceEntry, cfg: ScrapingConfig, lookback: timedelta) -
     soup = BeautifulSoup(resp.text, "lxml")
     articles = soup.select(source.selectors.article)
     papers: list[Paper] = []
+    seen_urls: set[str] = set()
 
     for article in articles:
-        title_el = article.select_one(source.selectors.title)
-        title = title_el.get_text(strip=True) if title_el else "Untitled"
+        # Resolve title
+        if source.selectors.title == "self":
+            title = article.get_text(strip=True)
+        else:
+            title_el = article.select_one(source.selectors.title)
+            title = title_el.get_text(strip=True) if title_el else "Untitled"
+
+        # Skip articles with no meaningful title (nav links, etc.)
+        if not title or len(title) < 10:
+            continue
 
         # Resolve link
         link = ""
@@ -115,6 +124,11 @@ def scrape_html(source: SourceEntry, cfg: ScrapingConfig, lookback: timedelta) -
 
         if link and source.selectors.link_prefix and not link.startswith("http"):
             link = source.selectors.link_prefix + link
+
+        # Deduplicate by URL
+        if link in seen_urls:
+            continue
+        seen_urls.add(link)
 
         papers.append(
             Paper(

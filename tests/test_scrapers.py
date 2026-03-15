@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import timedelta
+from datetime import datetime, timedelta, timezone
 from textwrap import dedent
 from unittest.mock import MagicMock, patch
 
@@ -25,13 +25,14 @@ def scraping_cfg() -> ScrapingConfig:
 class TestScrapeRSS:
     @patch("paperfinder.scrapers.feedparser.parse")
     def test_parses_entries(self, mock_parse: MagicMock, scraping_cfg: ScrapingConfig) -> None:
+        recent = datetime.now(tz=timezone.utc) - timedelta(days=1)
         mock_parse.return_value = MagicMock(
             entries=[
                 MagicMock(
                     title="Paper A",
                     link="https://arxiv.org/abs/1234",
                     summary="<p>Abstract</p>",
-                    published_parsed=(2026, 3, 5, 0, 0, 0, 0, 0, 0),
+                    published_parsed=recent.timetuple()[:9],
                     updated_parsed=None,
                     **{
                         "get.side_effect": lambda k, d="": {
@@ -64,8 +65,8 @@ class TestScrapeHTML:
     def test_parses_html_page(self, mock_get: MagicMock, scraping_cfg: ScrapingConfig) -> None:
         html = dedent("""\
             <html><body>
-            <div class="post"><a href="/blog/post-1"><h2>Post One</h2></a></div>
-            <div class="post"><a href="/blog/post-2"><h2>Post Two</h2></a></div>
+            <div class="post"><a href="/blog/post-1"><h2>A Deep Dive Into Neural Networks</h2></a></div>
+            <div class="post"><a href="/blog/post-2"><h2>Transformers and Attention Mechanisms</h2></a></div>
             </body></html>
         """)
         mock_get.return_value = MagicMock(text=html, status_code=200)
@@ -85,7 +86,7 @@ class TestScrapeHTML:
         )
         papers = scrape_html(source, scraping_cfg, timedelta(days=1))
         assert len(papers) == 2
-        assert papers[0].title == "Post One"
+        assert papers[0].title == "A Deep Dive Into Neural Networks"
         assert papers[0].url == "https://example.com/blog/post-1"
 
     def test_no_selectors_returns_empty(self, scraping_cfg: ScrapingConfig) -> None:

@@ -58,4 +58,4 @@ scraping:
   request_timeout: 30          # seconds
   max_concurrent_requests: 5
   user_agent: "PaperFinder/0.1 (+https://github.com/dalton/PaperFinder)"
-  lookback_days: 1             # how many days back to search
+  lookback_days: 3             # how many days back to search

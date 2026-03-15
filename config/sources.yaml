@@ -51,7 +51,7 @@ sources:
     url: "https://deepmind.google/discover/blog/"
     category: blog
     selectors:
-      article: "a.glue-page__link"
+      article: "article.card-blog"
       title: "h3"
       link_attr: "href"
       link_prefix: "https://deepmind.google"
@@ -61,8 +61,8 @@ sources:
     url: "https://www.anthropic.com/research"
     category: blog
     selectors:
-      article: "a.PostCard_post-card__WraJv"
-      title: "h3"
+      article: 'a[class*="listItem"]'
+      title: 'span[class*="title"]'
       link_attr: "href"
       link_prefix: "https://www.anthropic.com"
 
@@ -76,10 +76,10 @@ sources:
     url: "https://ai.meta.com/blog/"
     category: blog
     selectors:
-      article: "div._amq3"
-      title: "h4"
+      article: 'a[href*="/blog/"]'
+      title: "self"
       link_attr: "href"
-      link_prefix: "https://ai.meta.com"
+      link_prefix: ""
 
   - name: "Hugging Face Blog"
     type: rss
