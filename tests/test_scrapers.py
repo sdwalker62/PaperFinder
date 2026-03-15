@@ -2,8 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
-from textwrap import dedent
+from datetime import UTC, datetime, timedelta
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -25,7 +24,7 @@ def scraping_cfg() -> ScrapingConfig:
 class TestScrapeRSS:
     @patch("paperfinder.scrapers.feedparser.parse")
     def test_parses_entries(self, mock_parse: MagicMock, scraping_cfg: ScrapingConfig) -> None:
-        recent = datetime.now(tz=timezone.utc) - timedelta(days=1)
+        recent = datetime.now(tz=UTC) - timedelta(days=1)
         mock_parse.return_value = MagicMock(
             entries=[
                 MagicMock(
@@ -63,12 +62,14 @@ class TestScrapeRSS:
 class TestScrapeHTML:
     @patch("paperfinder.scrapers.requests.get")
     def test_parses_html_page(self, mock_get: MagicMock, scraping_cfg: ScrapingConfig) -> None:
-        html = dedent("""\
-            <html><body>
-            <div class="post"><a href="/blog/post-1"><h2>A Deep Dive Into Neural Networks</h2></a></div>
-            <div class="post"><a href="/blog/post-2"><h2>Transformers and Attention Mechanisms</h2></a></div>
-            </body></html>
-        """)
+        html = (
+            "<html><body>"
+            '<div class="post"><a href="/blog/post-1">'
+            "<h2>A Deep Dive Into Neural Networks</h2></a></div>"
+            '<div class="post"><a href="/blog/post-2">'
+            "<h2>Transformers and Attention Mechanisms</h2></a></div>"
+            "</body></html>"
+        )
         mock_get.return_value = MagicMock(text=html, status_code=200)
         mock_get.return_value.raise_for_status = MagicMock()
 
