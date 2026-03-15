@@ -32,7 +32,9 @@ def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
     skip_delivery: bool = bool(event.get("skip_delivery", False))
 
     if lookback_days is not None:
-        logger.info("Backfill mode — lookback_days=%d, skip_delivery=%s", lookback_days, skip_delivery)
+        logger.info(
+            "Backfill mode — lookback_days=%d, skip_delivery=%s", lookback_days, skip_delivery
+        )
 
     papers = run_pipeline(settings, lookback_days=lookback_days, skip_delivery=skip_delivery)
     return {

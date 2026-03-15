@@ -44,10 +44,14 @@ def run_pipeline(
         settings = load_settings()
     sources = load_sources()
 
-    effective_lookback = lookback_days if lookback_days is not None else settings.scraping.lookback_days
+    effective_lookback = (
+        lookback_days if lookback_days is not None else settings.scraping.lookback_days
+    )
 
     # 1. Scrape all sources
-    logger.info("Step 1/6: Scraping %d sources (lookback=%d days) …", len(sources), effective_lookback)
+    logger.info(
+        "Step 1/6: Scraping %d sources (lookback=%d days) …", len(sources), effective_lookback
+    )
     papers = scrape_all(sources, settings.scraping, lookback_days=effective_lookback)
     logger.info("Collected %d candidate papers/posts", len(papers))
 
