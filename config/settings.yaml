@@ -43,6 +43,11 @@ llm:
   max_budget_usd: 1.00        # hard spending cap per pipeline run
   api_base: ""                # optional: proxy / self-hosted URL
 
+# Website API (pushes papers to the frontend database)
+website:
+  api_url: ""       # e.g. https://paperfinder.netlify.app/api/papers
+  api_key: ""       # matches the frontend API_KEY env var
+
 # Discord (optional — leave webhook_url empty to disable)
 discord:
   enabled: false

@@ -47,6 +47,13 @@ class LLMConfig(BaseModel):
     api_base: str = ""
 
 
+class WebsiteConfig(BaseModel):
+    """Frontend API for persisting papers to the database."""
+
+    api_url: str = ""  # e.g. "https://paperfinder.netlify.app/api/papers"
+    api_key: str = ""
+
+
 class DiscordConfig(BaseModel):
     enabled: bool = False
     webhook_url: str = ""
@@ -90,6 +97,7 @@ class Settings(BaseSettings):
     email: EmailConfig = Field(default_factory=EmailConfig)
     aws: AWSConfig = Field(default_factory=AWSConfig)
     llm: LLMConfig = Field(default_factory=LLMConfig)
+    website: WebsiteConfig = Field(default_factory=WebsiteConfig)
     discord: DiscordConfig = Field(default_factory=DiscordConfig)
     scraping: ScrapingConfig = Field(default_factory=ScrapingConfig)
 

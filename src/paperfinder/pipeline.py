@@ -7,7 +7,9 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-from paperfinder.config import Settings, load_settings, load_sources
+import requests
+
+from paperfinder.config import Settings, WebsiteConfig, load_settings, load_sources
 from paperfinder.discord_bot import post_digest
 from paperfinder.email_sender import send_digest_email
 from paperfinder.llm import rank_and_filter, summarize_papers
@@ -58,14 +60,18 @@ def run_pipeline(settings: Settings | None = None) -> list[Paper]:
     logger.info("Step 3/5: Generating summaries …")
     summarize_papers(top_papers, settings.llm)
 
-    # 4. Build PDF
-    logger.info("Step 4/5: Building PDF digest …")
+    # 4. Persist to website database
+    logger.info("Step 4/6: Persisting papers to website …")
+    _publish_to_website(top_papers, settings.website)
+
+    # 5. Build PDF
+    logger.info("Step 5/6: Building PDF digest …")
     today = datetime.now().strftime("%Y-%m-%d")
     pdf_path = OUTPUT_DIR / f"digest_{today}.pdf"
     pdf_bytes = build_pdf(top_papers, output_path=pdf_path)
 
-    # 5. Deliver
-    logger.info("Step 5/5: Delivering digest …")
+    # 6. Deliver
+    logger.info("Step 6/6: Delivering digest …")
     send_digest_email(top_papers, pdf_bytes, settings.email, settings.aws)
 
     # Optional: Discord
@@ -73,3 +79,34 @@ def run_pipeline(settings: Settings | None = None) -> list[Paper]:
 
     logger.info("Pipeline complete — %d papers delivered", len(top_papers))
     return top_papers
+
+
+def _publish_to_website(papers: list[Paper], config: WebsiteConfig) -> None:
+    """POST processed papers to the frontend API so they appear on the website."""
+    if not config.api_url or not config.api_key:
+        logger.info("Website API not configured — skipping database publish")
+        return
+
+    payload = [
+        {
+            "title": p.title,
+            "url": p.url,
+            "source_name": p.source_name,
+            "category": p.category,
+            "abstract": p.abstract,
+            "published": p.published.isoformat() if p.published else None,
+            "summary": p.summary,
+            "relevance_score": p.relevance_score,
+            "topics_matched": p.topics_matched,
+        }
+        for p in papers
+    ]
+
+    resp = requests.post(
+        config.api_url,
+        json=payload,
+        headers={"x-api-key": config.api_key, "Content-Type": "application/json"},
+        timeout=30,
+    )
+    resp.raise_for_status()
+    logger.info("Published %d papers to website (status %d)", len(papers), resp.status_code)

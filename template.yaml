@@ -21,6 +21,15 @@ Parameters:
     Type: String
     NoEcho: true
     Description: Anthropic API key for LLM calls
+  WebsiteApiUrl:
+    Type: String
+    Default: ""
+    Description: Frontend papers API URL (e.g. https://paperfinder.netlify.app/api/papers)
+  WebsiteApiKey:
+    Type: String
+    NoEcho: true
+    Default: ""
+    Description: API key for the frontend papers endpoint
   Schedule:
     Type: String
     Default: "cron(0 13 * * ? *)"   # 8 AM ET = 1 PM UTC
@@ -39,6 +48,8 @@ Globals:
         PAPERFINDER_LLM__MODEL: !Ref LLMModel
         PAPERFINDER_LLM__MAX_BUDGET_USD: !Ref LLMMaxBudgetUSD
         ANTHROPIC_API_KEY: !Ref AnthropicApiKey
+        PAPERFINDER_WEBSITE__API_URL: !Ref WebsiteApiUrl
+        PAPERFINDER_WEBSITE__API_KEY: !Ref WebsiteApiKey
 
 Resources:
   # ── Lambda Function ──────────────────────────────────────────
