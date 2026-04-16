@@ -23,7 +23,7 @@
 		"@tailwindcss/vite": "^4.2.1",
 		"@types/aws4": "^1.11.6",
 		"daisyui": "^5.5.19",
-		"prisma": "^7.4.2",
+		"prisma": "^7.7.0",
 		"svelte": "^5.51.0",
 		"svelte-check": "^4.4.2",
 		"tailwindcss": "^4.2.1",
