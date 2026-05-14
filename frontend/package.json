@@ -24,7 +24,7 @@
 		"@types/aws4": "^1.11.6",
 		"daisyui": "^5.5.19",
 		"prisma": "^7.4.2",
-		"svelte": "^5.51.0",
+		"svelte": "^5.55.7",
 		"svelte-check": "^4.4.2",
 		"tailwindcss": "^4.2.1",
 		"typescript": "^5.9.3",
